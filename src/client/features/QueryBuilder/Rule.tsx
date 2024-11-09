@@ -18,7 +18,13 @@ function RuleComponent(props: RuleComponentProps) {
     <div className="rule flex items-center space-x-2 mb-2">
       <select
         value={rule.fieldName}
-        onChange={(e) => onUpdate({ ...rule, fieldName: e.target.value })}
+        onChange={(e) =>
+          onUpdate({
+            ...rule,
+            fieldName: e.target.value,
+            operation: "EQUAL",
+          })
+        }
         className="border border-gray-300 p-2 rounded"
       >
         <option value="">Select field</option>
