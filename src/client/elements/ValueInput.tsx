@@ -6,6 +6,11 @@ interface ValueInputProps {
   onUpdate: (rule: Rule) => void
 }
 
+interface CurrencyValue {
+  amount: number
+  currency: string
+}
+
 function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
   if (!field) return null
 
@@ -37,6 +42,7 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
                   value: {
                     ...(rule.value as { amount: number; currency: string }),
                     amount: Number(e.target.value),
+                    currency: (rule.value as CurrencyValue).currency || "USD",
                   },
                 })
               }
