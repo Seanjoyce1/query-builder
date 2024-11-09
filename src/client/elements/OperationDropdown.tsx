@@ -1,4 +1,4 @@
-import React from "react"
+import { ChangeEvent } from "react"
 
 interface OperationDropdownProps {
   fieldType: string
@@ -21,7 +21,7 @@ function OperationDropdown({
   return (
     <select
       value={selectedOperation}
-      onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+      onChange={(event: ChangeEvent<HTMLSelectElement>) =>
         onOperationChange(event.target.value)
       }
       className="border border-gray-300 p-2 rounded"

@@ -13,12 +13,6 @@ export const fields: Field[] = [
   { label: "Installments", value: "installments", type: "number" },
 ]
 
-export const operations: { [key: string]: string[] } = {
-  text: ["EQUAL", "NOT_EQUAL"],
-  number: ["EQUAL", "NOT_EQUAL", "LESS_THAN", "GREATER_THAN"],
-  enum: ["EQUAL", "NOT_EQUAL"],
-}
-
 export enum TransactionState {
   SUCCEEDED = "SUCCEEDED",
   REJECTED = "REJECTED",

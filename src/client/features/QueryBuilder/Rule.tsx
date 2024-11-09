@@ -2,7 +2,7 @@ import React from "react"
 import ValueInput from "../../elements/ValueInput"
 import { FieldCriteria } from "../../data/interface"
 import OperationDropdown from "../../elements/OperationDropdown"
-import { fields } from "../../mocks/fields"
+import { fields } from "../../data/models"
 
 interface RuleProps {
   rule: FieldCriteria

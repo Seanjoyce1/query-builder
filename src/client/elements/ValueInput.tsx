@@ -1,3 +1,5 @@
+import { transactionStates } from "../data/models"
+
 interface ValueInputProps {
   fieldName: string
   value: any
@@ -26,6 +28,21 @@ function ValueInput(props: ValueInputProps) {
             <option value="EUR">EUR</option>
           </select>
         </div>
+      )
+    case "transaction_state":
+      // map transactionStates in select
+      return (
+        <select
+          value={value || ""}
+          onChange={(e) => onChange(e.target.value)}
+          className="border border-gray-300 p-2 rounded"
+        >
+          {transactionStates.map((state) => (
+            <option key={state} value={state}>
+              {state}
+            </option>
+          ))}
+        </select>
       )
     default:
       return (

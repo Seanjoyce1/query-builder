@@ -1,20 +1,35 @@
-import React from "react"
-import { ConditionSet } from "../../data/interface"
+import { ChangeEvent } from "react"
+import { ConditionSet, FieldCriteria } from "../../data/interface"
 import Rule from "./Rule"
 import Button from "../../elements/Button"
 
 interface RuleGroupProps {
   group: ConditionSet
-  onAddRule: (groupIndex: number) => void
-  onAddGroup: (groupIndex: number) => void
+  groupIndex: number
+  parentIndex: number | null
+  onAddRule: (parentIndex: number, groupIndex: number) => void
+  onAddGroup: (parentIndex: number, groupIndex: number) => void
   onUpdate: (group: ConditionSet) => void
 }
 
 function RuleGroup(props: RuleGroupProps) {
-  const { group, onAddRule, onAddGroup, onUpdate } = props
+  const { group, groupIndex, parentIndex, onAddRule, onAddGroup, onUpdate } =
+    props
 
-  const handleCombinatorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCombinatorChange = (e: ChangeEvent<HTMLSelectElement>) => {
     onUpdate({ ...group, combinator: e.target.value as "AND" | "OR" })
+  }
+
+  const handleOnUpdateGroup = (updatedGroup: ConditionSet) => {
+    const newConditions = [...(group.conditions || [])]
+    newConditions[groupIndex] = updatedGroup
+    onUpdate({ ...group, conditions: newConditions })
+  }
+
+  const handleOnUpdateRule = (updatedRule: FieldCriteria) => {
+    const newConditions = [...(group.conditions || [])]
+    newConditions[groupIndex] = updatedRule
+    onUpdate({ ...group, conditions: newConditions })
   }
 
   return (
@@ -33,32 +48,26 @@ function RuleGroup(props: RuleGroupProps) {
             <RuleGroup
               key={index}
               group={condition}
-              onAddRule={(subIndex) => onAddRule(index)}
-              onAddGroup={(subIndex) => onAddGroup(index)}
-              onUpdate={(updatedGroup) => {
-                const newConditions = [...(group.conditions || [])]
-                newConditions[index] = updatedGroup
-                onUpdate({ ...group, conditions: newConditions })
-              }}
+              groupIndex={index}
+              parentIndex={groupIndex}
+              onAddRule={onAddRule}
+              onAddGroup={onAddGroup}
+              onUpdate={handleOnUpdateGroup}
             />
           )
         } else {
           return (
-            <Rule
-              key={index}
-              rule={condition}
-              onChange={(updatedRule) => {
-                const newConditions = [...(group.conditions || [])]
-                newConditions[index] = updatedRule
-                onUpdate({ ...group, conditions: newConditions })
-              }}
-            />
+            <Rule key={index} rule={condition} onChange={handleOnUpdateRule} />
           )
         }
       })}
       <div className="flex space-x-2 mt-2">
-        <Button onClick={() => onAddRule(group.index)}>Add Rule</Button>
-        <Button onClick={() => onAddGroup(group.index)}>Add Group</Button>
+        <Button onClick={() => onAddRule(parentIndex, groupIndex)}>
+          Add Rule
+        </Button>
+        <Button onClick={() => onAddGroup(parentIndex, groupIndex)}>
+          Add Group
+        </Button>
       </div>
     </div>
   )
