@@ -4,7 +4,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
 }
 
-function Button({ onClick, children }: ButtonProps) {
+function Button(props: ButtonProps) {
+  const { children, onClick } = props
   return (
     <button
       onClick={onClick}

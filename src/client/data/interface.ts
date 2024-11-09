@@ -1,11 +1,19 @@
-export interface FieldCriteria {
-  fieldName: string
-  operation: string
-  value: string | number | boolean
+import { Combinator, FieldType, Operation } from "./types"
+
+export interface Field {
+  name: string
+  label: string
+  type: FieldType
+  options?: string[]
 }
 
-export interface ConditionSet {
-  combinator: "AND" | "OR"
-  conditions: (FieldCriteria | ConditionSet)[]
-  subConditions?: ConditionSet[]
+export interface Rule {
+  fieldName: string
+  operation: Operation
+  value: string | number | { amount: number; currency: string }
+}
+
+export interface Group {
+  combinator: Combinator
+  rules: (Rule | Group)[]
 }

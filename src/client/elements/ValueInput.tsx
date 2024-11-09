@@ -1,56 +1,81 @@
-import { transactionStates } from "../data/models"
+import { Field, Rule } from "../data/interface"
 
 interface ValueInputProps {
-  fieldName: string
-  value: any
-  onChange: (value: any) => void
+  field: Field | undefined
+  rule: Rule
+  onUpdate: (rule: Rule) => void
 }
 
-function ValueInput(props: ValueInputProps) {
-  const { fieldName, value, onChange } = props
-  switch (fieldName) {
-    case "amount":
-      return (
-        <div className="flex space-x-2">
-          <input
-            type="number"
-            value={value?.amount || ""}
-            onChange={(e) =>
-              onChange({ ...value, amount: Number(e.target.value) })
-            }
-            className="border border-gray-300 p-2 rounded"
-          />
-          <select
-            onChange={(e) => onChange({ ...value, currency: e.target.value })}
-            className="border border-gray-300 p-2 rounded"
-          >
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-          </select>
-        </div>
-      )
-    case "transaction_state":
-      // map transactionStates in select
+function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
+  if (!field) return null
+
+  switch (field.type) {
+    case "enum":
       return (
         <select
-          value={value || ""}
-          onChange={(e) => onChange(e.target.value)}
+          value={rule.value as string}
+          onChange={(e) => onUpdate({ ...rule, value: e.target.value })}
           className="border border-gray-300 p-2 rounded"
         >
-          {transactionStates.map((state) => (
-            <option key={state} value={state}>
-              {state}
+          {field.options?.map((option) => (
+            <option key={option} value={option}>
+              {option}
             </option>
           ))}
         </select>
+      )
+    case "number":
+      if (field.name === "amount") {
+        return (
+          <>
+            <input
+              type="number"
+              value={(rule.value as { amount: number }).amount || ""}
+              onChange={(e) =>
+                onUpdate({
+                  ...rule,
+                  value: {
+                    ...(rule.value as { amount: number; currency: string }),
+                    amount: Number(e.target.value),
+                  },
+                })
+              }
+              className="border border-gray-300 p-2 rounded"
+            />
+            <select
+              value={(rule.value as { currency: string }).currency || ""}
+              onChange={(e) =>
+                onUpdate({
+                  ...rule,
+                  value: {
+                    ...(rule.value as { amount: number; currency: string }),
+                    currency: e.target.value,
+                  },
+                })
+              }
+              className="border border-gray-300 p-2 rounded"
+            >
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+            </select>
+          </>
+        )
+      }
+      return (
+        <input
+          type="number"
+          value={rule.value as number}
+          onChange={(e) => onUpdate({ ...rule, value: Number(e.target.value) })}
+          className="border border-gray-300 p-2 rounded"
+        />
       )
     default:
       return (
         <input
           type="text"
-          value={value || ""}
-          onChange={(e) => onChange(e.target.value)}
-          className="border border-gray-300 p-2 rounded w-full"
+          value={rule.value as string}
+          onChange={(e) => onUpdate({ ...rule, value: e.target.value })}
+          className="border border-gray-300 p-2 rounded"
         />
       )
   }
