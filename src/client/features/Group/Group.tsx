@@ -73,8 +73,18 @@ function GroupComponent(props: GroupComponentProps) {
         </div>
       ))}
       <div className="group-buttons flex space-x-2 mt-2">
-        <Button onClick={addRule}>Add Rule</Button>
-        <Button onClick={addGroup}>Add Group</Button>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={addRule}
+        >
+          Add Rule
+        </button>
+        <button
+          className="bg-green-500 text-white px-4 py-2 rounded"
+          onClick={addGroup}
+        >
+          Add Group
+        </button>
       </div>
     </div>
   )
