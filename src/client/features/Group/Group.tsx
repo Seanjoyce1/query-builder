@@ -50,7 +50,7 @@ function GroupComponent(props: GroupComponentProps) {
   return (
     <div
       data-testid="group"
-      className="flex flex-col gap-2 p-4 border border-gray-300 rounded mb-4 "
+      className="flex flex-col gap-2 p-4 shadow rounded mb-4 "
     >
       <div className="flex gap-2">
         <CombinatorSelector
@@ -63,6 +63,7 @@ function GroupComponent(props: GroupComponentProps) {
           data-testid="add-rule"
           className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
           onClick={addRule}
+          type="button"
         >
           Add Rule
           <PlusIcon className="size-6 text-white" />
@@ -71,6 +72,7 @@ function GroupComponent(props: GroupComponentProps) {
           data-testid="add-group"
           className="bg-green-500 text-white px-4 py-2 rounded flex"
           onClick={addGroup}
+          type="button"
         >
           Add Group
           <PlusIcon className="size-6 text-white" />

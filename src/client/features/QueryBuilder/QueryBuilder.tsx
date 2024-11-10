@@ -30,7 +30,8 @@ function QueryBuilder() {
     { name: "installments", label: "Installments", type: "number" },
   ]
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     try {
       await fetch("/api/save-rules", {
         method: "POST",
@@ -44,18 +45,21 @@ function QueryBuilder() {
   }
 
   return (
-    <div className="query-builder p-4 border border-gray-300 rounded flex gap-4">
-      <div className="w-1/2">
+    <div
+      data-testid="query-builder"
+      className="p-4 border border-gray-300 rounded flex flex-col lg:flex-row gap-4"
+    >
+      <form className="w-full lg:w-1/2" onSubmit={handleSubmit}>
         <GroupComponent group={query} fields={fields} onChange={setQuery} />
         <button
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleSubmit}
+          className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          type="submit"
         >
           Submit
         </button>
-      </div>
+      </form>
 
-      <pre className="p-2 bg-gray-100 rounded w-1/2">
+      <pre className="p-2 bg-gray-100 rounded w-full lg:w-1/2">
         {JSON.stringify(query, null, 2)}
       </pre>
     </div>
