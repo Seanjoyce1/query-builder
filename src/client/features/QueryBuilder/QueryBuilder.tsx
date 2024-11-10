@@ -1,12 +1,17 @@
-import { useState } from "react"
-import { Field, Group } from "../../data/interface"
+import { Field } from "../../data/interface"
 import GroupComponent from "../Group/Group"
+import useQueryBuilder from "../../hooks/useQueryBuilder"
 
 function QueryBuilder() {
-  const [query, setQuery] = useState<Group>({
-    combinator: "AND",
-    rules: [],
-  })
+  const {
+    query,
+    setQuery,
+    addRule,
+    addGroup,
+    updateRule,
+    updateGroup,
+    removeRule,
+  } = useQueryBuilder() // Use the hook
 
   const fields: Field[] = [
     { name: "amount", label: "Amount", type: "number" },
@@ -45,7 +50,16 @@ function QueryBuilder() {
 
   return (
     <div className="query-builder p-4 border border-gray-300 rounded">
-      <GroupComponent group={query} fields={fields} onChange={setQuery} />
+      <GroupComponent
+        group={query}
+        fields={fields}
+        onChange={setQuery} // Use setQuery directly
+        addRule={addRule}
+        addGroup={addGroup}
+        updateRule={updateRule}
+        updateGroup={updateGroup}
+        removeRule={removeRule}
+      />
       <button
         className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
         onClick={handleSubmit}

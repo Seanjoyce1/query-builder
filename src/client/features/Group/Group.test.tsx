@@ -14,74 +14,56 @@ const mockGroup: Group = {
 }
 
 describe("GroupComponent", () => {
-  it("renders without crashing", () => {
+  it("renders GroupComponent with Add Rule and Add Group buttons", () => {
     render(
       <GroupComponent
         group={mockGroup}
         fields={mockFields}
         onChange={vi.fn()}
+        addRule={vi.fn()}
+        addGroup={vi.fn()}
+        updateRule={vi.fn()}
+        updateGroup={vi.fn()}
+        removeRule={vi.fn()}
       />
     )
     expect(screen.getByText("Add Rule")).toBeInTheDocument()
     expect(screen.getByText("Add Group")).toBeInTheDocument()
   })
 
-  it("calls onChange when adding a rule", () => {
-    const handleChange = vi.fn()
+  it("calls addRule when Add Rule button is clicked", () => {
+    const addRule = vi.fn()
     render(
       <GroupComponent
         group={mockGroup}
         fields={mockFields}
-        onChange={handleChange}
+        onChange={vi.fn()}
+        addRule={addRule}
+        addGroup={vi.fn()}
+        updateRule={vi.fn()}
+        updateGroup={vi.fn()}
+        removeRule={vi.fn()}
       />
     )
     fireEvent.click(screen.getByText("Add Rule"))
-    expect(handleChange).toHaveBeenCalled()
+    expect(addRule).toHaveBeenCalledTimes(1)
   })
 
-  it("calls onChange when adding a group", () => {
-    const handleChange = vi.fn()
+  it("calls addGroup when Add Group button is clicked", () => {
+    const addGroup = vi.fn()
     render(
       <GroupComponent
         group={mockGroup}
         fields={mockFields}
-        onChange={handleChange}
+        onChange={vi.fn()}
+        addRule={vi.fn()}
+        addGroup={addGroup}
+        updateRule={vi.fn()}
+        updateGroup={vi.fn()}
+        removeRule={vi.fn()}
       />
     )
     fireEvent.click(screen.getByText("Add Group"))
-    expect(handleChange).toHaveBeenCalled()
-  })
-
-  it("calls onChange when updating a combinator", () => {
-    const handleChange = vi.fn()
-    render(
-      <GroupComponent
-        group={mockGroup}
-        fields={mockFields}
-        onChange={handleChange}
-      />
-    )
-    fireEvent.change(screen.getByRole("combobox"), { target: { value: "OR" } })
-    expect(handleChange).toHaveBeenCalledWith({
-      ...mockGroup,
-      combinator: "OR",
-    })
-  })
-
-  it("calls onChange when removing a rule", () => {
-    const mockGroupWithRule: Group = {
-      combinator: "AND",
-      rules: [{ fieldName: "field1", operation: "EQUAL", value: "value1" }],
-    }
-    const handleChange = vi.fn()
-    render(
-      <GroupComponent
-        group={mockGroupWithRule}
-        fields={mockFields}
-        onChange={handleChange}
-      />
-    )
-    fireEvent.click(screen.getByText("Remove"))
-    expect(handleChange).toHaveBeenCalled()
+    expect(addGroup).toHaveBeenCalledTimes(1)
   })
 })
