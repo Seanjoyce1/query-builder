@@ -1,6 +1,6 @@
 import { Group, Field, Rule } from "../../data/interface"
-import Button from "../../elements/Button"
-import CombinatorSelector from "../../elements/CombinatiorSelector"
+import Button from "../../elements/Button/Button"
+import CombinatorSelector from "../../elements/CombinatiorSelector/CombinatiorSelector"
 import RuleComponent from "./Rule"
 
 interface GroupComponentProps {

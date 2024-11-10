@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Field, Group } from "../../data/interface"
 import GroupComponent from "./Group"
-import Button from "../../elements/Button"
+import Button from "../../elements/Button/Button"
 
 function QueryBuilder() {
   const [query, setQuery] = useState<Group>({

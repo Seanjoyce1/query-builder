@@ -1,4 +1,4 @@
-import { Combinator } from "../data/types"
+import { Combinator } from "../../data/types"
 
 interface CombinatorSelectorProps {
   combinator: Combinator

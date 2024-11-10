@@ -1,6 +1,6 @@
 import { Field, Rule } from "../../data/interface"
 import { Operation } from "../../data/types"
-import ValueInput from "../../elements/ValueInput"
+import ValueInput from "../../elements/ValueInput/ValueInput"
 
 interface RuleComponentProps {
   rule: Rule

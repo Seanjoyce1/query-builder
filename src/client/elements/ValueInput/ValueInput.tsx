@@ -1,4 +1,4 @@
-import { Field, Rule } from "../data/interface"
+import { Field, Rule } from "../../data/interface"
 
 interface ValueInputProps {
   field: Field | undefined
