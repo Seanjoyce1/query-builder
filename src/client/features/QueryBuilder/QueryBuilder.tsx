@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Field, Group } from "../../data/interface"
-import GroupComponent from "./Group"
+import GroupComponent from "../Group/Group"
 import Button from "../../elements/Button/Button"
 
 function QueryBuilder() {
