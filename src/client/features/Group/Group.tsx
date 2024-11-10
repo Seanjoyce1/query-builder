@@ -7,24 +7,45 @@ interface GroupComponentProps {
   group: Group
   fields: Field[]
   onChange: (group: Group) => void
-  addRule: () => void
-  addGroup: () => void
-  updateRule: (index: number, updatedRule: Rule) => void
-  updateGroup: (index: number, updatedGroup: Group) => void
-  removeRule: (index: number) => void
 }
 
 function GroupComponent(props: GroupComponentProps) {
-  const {
-    group,
-    fields,
-    onChange,
-    addRule,
-    addGroup,
-    updateRule,
-    updateGroup,
-    removeRule,
-  } = props
+  const { group, fields, onChange } = props
+
+  const addRule = () => {
+    onChange({
+      ...group,
+      rules: [...group.rules, { fieldName: "", operation: "EQUAL", value: "" }],
+    })
+  }
+
+  const addGroup = () => {
+    onChange({
+      ...group,
+      rules: [...group.rules, { combinator: "AND", rules: [] }],
+    })
+  }
+
+  const updateRule = (index: number, updatedRule: Rule) => {
+    onChange({
+      ...group,
+      rules: group.rules.map((rule, i) => (i === index ? updatedRule : rule)),
+    })
+  }
+
+  const updateGroup = (index: number, updatedGroup: Group) => {
+    onChange({
+      ...group,
+      rules: group.rules.map((rule, i) => (i === index ? updatedGroup : rule)),
+    })
+  }
+
+  const removeRule = (index: number) => {
+    onChange({
+      ...group,
+      rules: group.rules.filter((_, i) => i !== index),
+    })
+  }
 
   return (
     <div className="group p-4 border border-gray-300 rounded mb-4">
@@ -41,11 +62,6 @@ function GroupComponent(props: GroupComponentProps) {
               group={rule}
               fields={fields}
               onChange={(updatedGroup) => updateGroup(index, updatedGroup)}
-              addRule={addRule}
-              addGroup={addGroup}
-              updateRule={updateRule}
-              updateGroup={updateGroup}
-              removeRule={removeRule}
             />
           ) : (
             <RuleComponent
