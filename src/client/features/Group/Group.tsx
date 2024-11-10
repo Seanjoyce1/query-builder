@@ -48,35 +48,17 @@ function GroupComponent(props: GroupComponentProps) {
   }
 
   return (
-    <div className="group p-4 border border-gray-300 rounded mb-4">
-      <CombinatorSelector
-        combinator={group.combinator}
-        onChange={(newCombinator) =>
-          onChange({ ...group, combinator: newCombinator })
-        }
-      />
-      {group.rules.map((rule, index) => (
-        <div key={index} className="rule-or-group mb-2">
-          {"combinator" in rule ? (
-            <GroupComponent
-              group={rule}
-              fields={fields}
-              onChange={(updatedGroup) => updateGroup(index, updatedGroup)}
-            />
-          ) : (
-            <RuleComponent
-              rule={rule}
-              fields={fields}
-              onUpdate={(updatedRule) => updateRule(index, updatedRule)}
-              onRemove={() => removeRule(index)}
-            />
-          )}
-        </div>
-      ))}
-      <div
-        data-testid="group-buttons"
-        className="group-buttons flex space-x-2 mt-2"
-      >
+    <div
+      data-testid="group"
+      className="flex flex-col gap-2 p-4 border border-gray-300 rounded mb-4 "
+    >
+      <div className="flex gap-2">
+        <CombinatorSelector
+          combinator={group.combinator}
+          onChange={(newCombinator) =>
+            onChange({ ...group, combinator: newCombinator })
+          }
+        />
         <button
           data-testid="add-rule"
           className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
@@ -94,6 +76,25 @@ function GroupComponent(props: GroupComponentProps) {
           <PlusIcon className="size-6 text-white" />
         </button>
       </div>
+
+      {group.rules.map((rule, index) => (
+        <div key={index} data-testid="rule-or-group">
+          {"combinator" in rule ? (
+            <GroupComponent
+              group={rule}
+              fields={fields}
+              onChange={(updatedGroup) => updateGroup(index, updatedGroup)}
+            />
+          ) : (
+            <RuleComponent
+              rule={rule}
+              fields={fields}
+              onUpdate={(updatedRule) => updateRule(index, updatedRule)}
+              onRemove={() => removeRule(index)}
+            />
+          )}
+        </div>
+      ))}
     </div>
   )
 }
