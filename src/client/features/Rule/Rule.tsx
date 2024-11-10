@@ -1,6 +1,7 @@
 import { Field, Rule } from "../../data/interface"
 import { Operation } from "../../data/types"
 import ValueInput from "../../elements/ValueInput/ValueInput"
+import { TrashIcon } from "@heroicons/react/20/solid"
 
 interface RuleComponentProps {
   rule: Rule
@@ -55,7 +56,7 @@ function RuleComponent(props: RuleComponentProps) {
         onClick={onRemove}
         className="bg-red-500 text-white px-4 py-2 rounded"
       >
-        Remove
+        <TrashIcon className="size-6 text-white " />
       </button>
     </div>
   )
