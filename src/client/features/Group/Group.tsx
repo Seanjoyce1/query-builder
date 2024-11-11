@@ -2,6 +2,7 @@ import { PlusIcon } from "@heroicons/react/20/solid"
 import { Group, Field, Rule } from "../../data/interface"
 import CombinatorSelector from "../../elements/CombinatiorSelector/CombinatiorSelector"
 import RuleComponent from "../Rule/Rule"
+import { Button, Card, Typography } from "@mui/material"
 
 interface GroupComponentProps {
   group: Group
@@ -15,7 +16,10 @@ function GroupComponent(props: GroupComponentProps) {
   const addRule = () => {
     onChange({
       ...group,
-      rules: [...group.rules, { fieldName: "", operation: "EQUAL", value: "" }],
+      rules: [
+        ...group.rules,
+        { fieldName: "amount", operation: "EQUAL", value: "" },
+      ],
     })
   }
 
@@ -48,10 +52,29 @@ function GroupComponent(props: GroupComponentProps) {
   }
 
   return (
-    <div
-      data-testid="group"
-      className="flex flex-col gap-2 p-4 shadow rounded mb-4 "
-    >
+    <Card data-testid="group" className="flex flex-col gap-2 p-4 mb-4">
+      <div className="flex flex-row gap-2 mb-2">
+        <Button
+          variant="contained"
+          color="info"
+          data-testid="add-rule"
+          onClick={addRule}
+          type="button"
+          startIcon={<PlusIcon className="size-6 text-white" />}
+        >
+          <Typography variant="button">Add Rule</Typography>
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          data-testid="add-group"
+          onClick={addGroup}
+          type="button"
+          startIcon={<PlusIcon className="size-6 text-white" />}
+        >
+          <Typography variant="button">Add Group</Typography>
+        </Button>
+      </div>
       <div className="flex gap-2">
         <CombinatorSelector
           combinator={group.combinator}
@@ -59,24 +82,6 @@ function GroupComponent(props: GroupComponentProps) {
             onChange({ ...group, combinator: newCombinator })
           }
         />
-        <button
-          data-testid="add-rule"
-          className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
-          onClick={addRule}
-          type="button"
-        >
-          Add Rule
-          <PlusIcon className="size-6 text-white" />
-        </button>
-        <button
-          data-testid="add-group"
-          className="bg-green-500 text-white px-4 py-2 rounded flex"
-          onClick={addGroup}
-          type="button"
-        >
-          Add Group
-          <PlusIcon className="size-6 text-white" />
-        </button>
       </div>
 
       {group.rules.map((rule, index) => (
@@ -97,7 +102,7 @@ function GroupComponent(props: GroupComponentProps) {
           )}
         </div>
       ))}
-    </div>
+    </Card>
   )
 }
 

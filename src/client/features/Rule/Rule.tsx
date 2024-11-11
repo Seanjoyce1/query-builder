@@ -1,7 +1,8 @@
+import { IconButton, MenuItem, Select } from "@mui/material"
 import { Field, Rule } from "../../data/interface"
 import { Operation } from "../../data/types"
 import ValueInput from "../../elements/ValueInput/ValueInput"
-import { TrashIcon } from "@heroicons/react/20/solid"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 interface RuleComponentProps {
   rule: Rule
@@ -16,9 +17,12 @@ function RuleComponent(props: RuleComponentProps) {
   const field = fields.find((f) => f.name === rule.fieldName)
 
   return (
-    <div className="rule flex items-center space-x-2 mb-2">
-      <select
+    <div className="flex items-center gap-3 mb-2">
+      <Select
         value={rule.fieldName}
+        defaultValue="amount"
+        placeholder="amount"
+        size="small"
         onChange={(e) =>
           onUpdate({
             ...rule,
@@ -26,38 +30,33 @@ function RuleComponent(props: RuleComponentProps) {
             operation: "EQUAL",
           })
         }
-        className="border border-gray-300 p-2 rounded"
       >
-        <option value="">Select field</option>
         {fields.map((field) => (
-          <option key={field.name} value={field.name}>
+          <MenuItem key={field.name} value={field.name}>
             {field.label}
-          </option>
+          </MenuItem>
         ))}
-      </select>
-      <select
+      </Select>
+      <Select
         value={rule.operation}
+        size="small"
         onChange={(e) =>
           onUpdate({ ...rule, operation: e.target.value as Operation })
         }
-        className="border border-gray-300 p-2 rounded"
       >
-        <option value="EQUAL">Equal</option>
-        <option value="NOT_EQUAL">Not Equal</option>
+        <MenuItem value="EQUAL">Equal</MenuItem>
+        <MenuItem value="NOT_EQUAL">Not Equal</MenuItem>
         {field?.type === "number" && (
           <>
-            <option value="LESS_THAN">Less Than</option>
-            <option value="GREATER_THAN">Greater Than</option>
+            <MenuItem value="LESS_THAN">Less Than</MenuItem>
+            <MenuItem value="GREATER_THAN">Greater Than</MenuItem>
           </>
         )}
-      </select>
+      </Select>
       <ValueInput field={field} rule={rule} onUpdate={onUpdate} />
-      <button
-        onClick={onRemove}
-        className="bg-red-500 text-white px-4 py-2 rounded"
-      >
-        <TrashIcon className="size-6 text-white " />
-      </button>
+      <IconButton onClick={onRemove} color="error" size="medium">
+        <DeleteIcon fontSize="medium" />
+      </IconButton>
     </div>
   )
 }

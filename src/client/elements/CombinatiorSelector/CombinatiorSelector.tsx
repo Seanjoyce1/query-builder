@@ -1,3 +1,4 @@
+import { MenuItem, Select } from "@mui/material"
 import { Combinator } from "../../data/types"
 
 interface CombinatorSelectorProps {
@@ -8,14 +9,16 @@ interface CombinatorSelectorProps {
 function CombinatorSelector(props: CombinatorSelectorProps) {
   const { combinator, onChange } = props
   return (
-    <select
+    <Select
       value={combinator}
       onChange={(e) => onChange(e.target.value as Combinator)}
-      className="border border-gray-300 p-2 rounded"
+      placeholder="AND"
+      defaultValue="AND"
+      size="small"
     >
-      <option value="AND">AND</option>
-      <option value="OR">OR</option>
-    </select>
+      <MenuItem value="AND">AND</MenuItem>
+      <MenuItem value="OR">OR</MenuItem>
+    </Select>
   )
 }
 

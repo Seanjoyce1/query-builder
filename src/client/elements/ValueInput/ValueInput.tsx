@@ -1,3 +1,4 @@
+import { MenuItem, Select, TextField } from "@mui/material"
 import { Field, Rule } from "../../data/interface"
 
 interface ValueInputProps {
@@ -17,25 +18,26 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
   switch (field.type) {
     case "enum":
       return (
-        <select
+        <Select
           value={rule.value as string}
           onChange={(e) => onUpdate({ ...rule, value: e.target.value })}
-          className="border border-gray-300 p-2 rounded"
+          size="small"
         >
           {field.options?.map((option) => (
-            <option key={option} value={option}>
+            <MenuItem key={option} value={option}>
               {option}
-            </option>
+            </MenuItem>
           ))}
-        </select>
+        </Select>
       )
     case "number":
       if (field.name === "amount") {
         return (
           <>
-            <input
+            <TextField
               type="number"
               value={(rule.value as { amount: number }).amount || ""}
+              size="small"
               onChange={(e) =>
                 onUpdate({
                   ...rule,
@@ -46,10 +48,10 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
                   },
                 })
               }
-              className="border border-gray-300 p-2 rounded"
             />
-            <select
+            <Select
               value={(rule.value as { currency: string }).currency || ""}
+              size="small"
               onChange={(e) =>
                 onUpdate({
                   ...rule,
@@ -59,29 +61,26 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
                   },
                 })
               }
-              className="border border-gray-300 p-2 rounded"
             >
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
-            </select>
+              <MenuItem value="USD">USD</MenuItem>
+              <MenuItem value="EUR">EUR</MenuItem>
+            </Select>
           </>
         )
       }
       return (
-        <input
+        <TextField
           type="number"
           value={rule.value as number}
           onChange={(e) => onUpdate({ ...rule, value: Number(e.target.value) })}
-          className="border border-gray-300 p-2 rounded"
         />
       )
     default:
       return (
-        <input
+        <TextField
           type="text"
           value={rule.value as string}
           onChange={(e) => onUpdate({ ...rule, value: e.target.value })}
-          className="border border-gray-300 p-2 rounded"
         />
       )
   }

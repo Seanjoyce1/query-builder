@@ -1,3 +1,4 @@
+import { Button, Typography } from "@mui/material"
 import { Field, Group } from "../../data/interface"
 import GroupComponent from "../Group/Group"
 import { useState } from "react"
@@ -47,20 +48,19 @@ function QueryBuilder() {
   return (
     <div
       data-testid="query-builder"
-      className="p-4 border border-gray-300 rounded flex flex-col lg:flex-row gap-4"
+      className="flex flex-col lg:flex-row gap-4 "
     >
       <form className="w-full lg:w-1/2" onSubmit={handleSubmit}>
         <GroupComponent group={query} fields={fields} onChange={setQuery} />
-        <button
-          className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          type="submit"
-        >
-          Submit
-        </button>
+        <Button variant="contained" type="submit">
+          <Typography variant="button">Submit</Typography>
+        </Button>
       </form>
 
       <pre className="p-2 bg-gray-100 rounded w-full lg:w-1/2">
-        {JSON.stringify(query, null, 2)}
+        <Typography variant="body1">
+          {JSON.stringify(query, null, 2)}
+        </Typography>
       </pre>
     </div>
   )
