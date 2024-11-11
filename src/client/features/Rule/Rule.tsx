@@ -11,9 +11,9 @@ import {
   useTheme,
 } from "@mui/material"
 import { Field, Rule } from "../../data/interface"
-import { Operation } from "../../data/types"
 import ValueInput from "../../elements/ValueInput/ValueInput"
 import DeleteIcon from "@mui/icons-material/Delete"
+import { Operation } from "../../data/enums"
 
 interface RuleComponentProps {
   rule: Rule
@@ -31,26 +31,31 @@ function RuleComponent(props: RuleComponentProps) {
   const field = fields.find((f) => f.name === rule.fieldName)
 
   const handleFieldChange = (e: SelectChangeEvent<string>) => {
-    const value =
-      e.target.value === "amount"
-        ? {
-            amount: 0,
-            currency: "USD",
-          }
-        : ""
     onUpdate({
       ...rule,
       fieldName: e.target.value as string,
-      operation: "EQUAL",
-      value: value,
+      operation: Operation.EQUAL,
+      value: "",
     })
   }
 
-  const getOperations = (fieldName: string) => {
-    if (fieldName === "number") {
-      return ["EQUAL", "NOT EQUAL", "LESS THAN", "GREATER THAN"]
+  const handleOperationChange = (e: SelectChangeEvent<string>) => {
+    onUpdate({
+      ...rule,
+      operation: e.target.value as Operation,
+    })
+  }
+
+  const operations = (fieldType: string) => {
+    if (fieldType === "number") {
+      return [
+        Operation.EQUAL,
+        Operation.NOT_EQUAL,
+        Operation.LESS_THAN,
+        Operation.GREATER_THAN,
+      ]
     }
-    return ["EQUAL", "NOT_EQUAL"]
+    return [Operation.EQUAL, Operation.NOT_EQUAL]
   }
 
   return (
@@ -97,11 +102,9 @@ function RuleComponent(props: RuleComponentProps) {
           label="Operation"
           labelId="operation"
           required
-          onChange={(e) =>
-            onUpdate({ ...rule, operation: e.target.value as Operation })
-          }
+          onChange={handleOperationChange}
         >
-          {getOperations(field?.type as string).map((operation) => (
+          {operations(field?.type as string).map((operation) => (
             <MenuItem key={operation} value={operation}>
               {operation}
             </MenuItem>

@@ -37,14 +37,13 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
         >
           <InputLabel id="value">Value</InputLabel>
           <Select
-            value={rule.value as string}
+            value={field?.options?.[0] ?? ""}
             onChange={(e) => onUpdate({ ...rule, value: e.target.value })}
             size="small"
             required
             label="Value"
             labelId="value"
             placeholder="Select value"
-            defaultValue=""
           >
             {field.options?.map((option) => (
               <MenuItem key={option} value={option}>

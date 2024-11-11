@@ -2,23 +2,24 @@ import { Box, Button, Card, Stack, Typography, useTheme } from "@mui/material"
 import { Field, Group } from "../../data/interface"
 import GroupComponent from "../Group/Group"
 import { useState } from "react"
+import { Combinator, FieldType } from "../../data/enums"
 
 function QueryBuilder() {
   const [query, setQuery] = useState<Group>({
-    combinator: "AND",
+    combinator: Combinator.AND,
     rules: [],
   })
 
   const theme = useTheme()
 
   const fields: Field[] = [
-    { name: "amount", label: "Amount", type: "number" },
-    { name: "name", label: "Name", type: "text" },
-    { name: "id", label: "ID", type: "text" },
+    { name: "amount", label: "Amount", type: FieldType.NUMBER },
+    { name: "name", label: "Name", type: FieldType.TEXT },
+    { name: "id", label: "ID", type: FieldType.TEXT },
     {
       name: "transaction_state",
       label: "Transaction State",
-      type: "enum",
+      type: FieldType.ENUM,
       options: [
         "SUCCEEDED",
         "REJECTED",
@@ -29,8 +30,8 @@ function QueryBuilder() {
         "ABORTED",
       ],
     },
-    { name: "device_ip", label: "Device IP", type: "text" },
-    { name: "installments", label: "Installments", type: "number" },
+    { name: "device_ip", label: "Device IP", type: FieldType.TEXT },
+    { name: "installments", label: "Installments", type: FieldType.NUMBER },
   ]
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -4,6 +4,7 @@ import RuleComponent from "../Rule/Rule"
 import { Box, Button, Card, Stack, Typography, useTheme } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add"
 import { useCallback } from "react"
+import { Combinator, Operation } from "../../data/enums"
 
 interface GroupComponentProps {
   group: Group
@@ -16,24 +17,24 @@ function GroupComponent(props: GroupComponentProps) {
 
   const theme = useTheme()
 
-  const addRule = useCallback(() => {
+  const handleAddRule = useCallback(() => {
     onChange({
       ...group,
       rules: [
         ...group.rules,
-        { fieldName: "amount", operation: "EQUAL", value: "" },
+        { fieldName: "amount", operation: Operation.EQUAL, value: "" },
       ],
     })
   }, [group, onChange])
 
-  const addGroup = useCallback(() => {
+  const handleAddGroup = useCallback(() => {
     onChange({
       ...group,
-      rules: [...group.rules, { combinator: "AND", rules: [] }],
+      rules: [...group.rules, { combinator: Combinator.AND, rules: [] }],
     })
   }, [group, onChange])
 
-  const updateRule = useCallback(
+  const handleUpdateRule = useCallback(
     (index: number, updatedRule: Rule) => {
       onChange({
         ...group,
@@ -43,7 +44,7 @@ function GroupComponent(props: GroupComponentProps) {
     [group, onChange]
   )
 
-  const updateGroup = useCallback(
+  const handleUpdateGroup = useCallback(
     (index: number, updatedGroup: Group) => {
       onChange({
         ...group,
@@ -55,7 +56,7 @@ function GroupComponent(props: GroupComponentProps) {
     [group, onChange]
   )
 
-  const removeRule = useCallback(
+  const handleRemoveRule = useCallback(
     (index: number) => {
       onChange({
         ...group,
@@ -83,7 +84,7 @@ function GroupComponent(props: GroupComponentProps) {
             variant="contained"
             color="info"
             data-testid="add-rule"
-            onClick={addRule}
+            onClick={handleAddRule}
             type="button"
             startIcon={<AddIcon />}
           >
@@ -93,7 +94,7 @@ function GroupComponent(props: GroupComponentProps) {
             variant="contained"
             color="secondary"
             data-testid="add-group"
-            onClick={addGroup}
+            onClick={handleAddGroup}
             type="button"
             startIcon={<AddIcon />}
           >
@@ -114,14 +115,16 @@ function GroupComponent(props: GroupComponentProps) {
               <GroupComponent
                 group={rule}
                 fields={fields}
-                onChange={(updatedGroup) => updateGroup(index, updatedGroup)}
+                onChange={(updatedGroup) =>
+                  handleUpdateGroup(index, updatedGroup)
+                }
               />
             ) : (
               <RuleComponent
                 rule={rule}
                 fields={fields}
-                onUpdate={(updatedRule) => updateRule(index, updatedRule)}
-                onRemove={() => removeRule(index)}
+                onUpdate={(updatedRule) => handleUpdateRule(index, updatedRule)}
+                onRemove={() => handleRemoveRule(index)}
               />
             )}
           </Box>

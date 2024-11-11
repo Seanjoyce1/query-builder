@@ -1,4 +1,4 @@
-import { Combinator, FieldType, Operation } from "./types"
+import { Combinator, FieldType, Operation } from "./enums"
 
 export interface Field {
   name: string

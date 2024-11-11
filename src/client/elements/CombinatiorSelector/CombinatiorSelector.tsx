@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
-import { Combinator } from "../../data/types"
+import { Combinator } from "../../data/enums"
 
 interface CombinatorSelectorProps {
   combinator: Combinator
