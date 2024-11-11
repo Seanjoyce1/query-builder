@@ -46,11 +46,17 @@ function RuleComponent(props: RuleComponentProps) {
     })
   }
 
+  const getOperations = (fieldName: string) => {
+    if (fieldName === "number") {
+      return ["EQUAL", "NOT EQUAL", "LESS THAN", "GREATER THAN"]
+    }
+    return ["EQUAL", "NOT_EQUAL"]
+  }
+
   return (
     <Stack
       direction={{ xs: "column", xl: "row" }}
       justifyItems={{ xs: "center", lg: "start" }}
-      mb={2}
       gap={2}
     >
       <FormControl
@@ -95,14 +101,11 @@ function RuleComponent(props: RuleComponentProps) {
             onUpdate({ ...rule, operation: e.target.value as Operation })
           }
         >
-          <MenuItem value="EQUAL">Equal</MenuItem>
-          <MenuItem value="NOT_EQUAL">Not Equal</MenuItem>
-          {field?.type === "number" && (
-            <>
-              <MenuItem value="LESS_THAN">Less Than</MenuItem>
-              <MenuItem value="GREATER_THAN">Greater Than</MenuItem>
-            </>
-          )}
+          {getOperations(field?.type as string).map((operation) => (
+            <MenuItem key={operation} value={operation}>
+              {operation}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <ValueInput field={field} rule={rule} onUpdate={onUpdate} />

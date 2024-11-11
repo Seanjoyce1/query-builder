@@ -98,7 +98,7 @@ function GroupComponent(props: GroupComponentProps) {
           />
         </Box>
         {group.rules.map((rule, index) => (
-          <Box key={index}>
+          <Box key={index} mb={2}>
             {"combinator" in rule ? (
               <GroupComponent
                 group={rule}
