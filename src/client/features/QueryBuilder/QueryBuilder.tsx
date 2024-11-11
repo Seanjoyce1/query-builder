@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material"
+import { Box, Button, Card, Stack, Typography, useTheme } from "@mui/material"
 import { Field, Group } from "../../data/interface"
 import GroupComponent from "../Group/Group"
 import { useState } from "react"
@@ -8,6 +8,8 @@ function QueryBuilder() {
     combinator: "AND",
     rules: [],
   })
+
+  const theme = useTheme()
 
   const fields: Field[] = [
     { name: "amount", label: "Amount", type: "number" },
@@ -46,23 +48,39 @@ function QueryBuilder() {
   }
 
   return (
-    <div
-      data-testid="query-builder"
-      className="flex flex-col lg:flex-row gap-4 "
-    >
-      <form className="w-full lg:w-1/2" onSubmit={handleSubmit}>
-        <GroupComponent group={query} fields={fields} onChange={setQuery} />
-        <Button variant="contained" type="submit">
-          <Typography variant="button">Submit</Typography>
-        </Button>
-      </form>
-
-      <pre className="p-2 bg-gray-100 rounded w-full lg:w-1/2">
-        <Typography variant="body1">
-          {JSON.stringify(query, null, 2)}
+    <Stack direction={{ xs: "column", lg: "row" }} gap={4}>
+      <Box width={{ xs: "100%", lg: "50%" }}>
+        <Typography variant="h4" gutterBottom>
+          Query Builder
         </Typography>
-      </pre>
-    </div>
+        <form onSubmit={handleSubmit}>
+          <GroupComponent group={query} fields={fields} onChange={setQuery} />
+          <Button variant="contained" type="submit">
+            <Typography variant="button">Submit</Typography>
+          </Button>
+        </form>
+      </Box>
+
+      <Stack width={{ xs: "100%", lg: "50%" }} height={"100%"}>
+        <Typography variant="h4" gutterBottom>
+          Result
+        </Typography>
+
+        <Card
+          variant="outlined"
+          sx={{
+            padding: theme.spacing(2),
+            bgcolor: theme.palette.grey[100],
+          }}
+        >
+          <pre>
+            <Typography variant="body1">
+              {JSON.stringify(query, null, 2)}
+            </Typography>
+          </pre>
+        </Card>
+      </Stack>
+    </Stack>
   )
 }
 

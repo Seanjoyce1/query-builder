@@ -1,8 +1,8 @@
-import { PlusIcon } from "@heroicons/react/20/solid"
 import { Group, Field, Rule } from "../../data/interface"
 import CombinatorSelector from "../../elements/CombinatiorSelector/CombinatiorSelector"
 import RuleComponent from "../Rule/Rule"
-import { Button, Card, Typography, useTheme } from "@mui/material"
+import { Box, Button, Card, Stack, Typography, useTheme } from "@mui/material"
+import AddIcon from "@mui/icons-material/Add"
 
 interface GroupComponentProps {
   group: Group
@@ -56,61 +56,66 @@ function GroupComponent(props: GroupComponentProps) {
   return (
     <Card
       data-testid="group"
-      className="flex flex-col gap-2 p-3 mb-4"
       variant="outlined"
       sx={{
-        backgroundColor: theme.palette.grey[100],
+        mb: 2,
       }}
     >
-      <div className="flex flex-row gap-2 mb-2">
-        <Button
-          variant="contained"
-          color="info"
-          data-testid="add-rule"
-          onClick={addRule}
-          type="button"
-          startIcon={<PlusIcon className="size-6 text-white" />}
-        >
-          <Typography variant="button">Add Rule</Typography>
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          data-testid="add-group"
-          onClick={addGroup}
-          type="button"
-          startIcon={<PlusIcon className="size-6 text-white" />}
-        >
-          <Typography variant="button">Add Group</Typography>
-        </Button>
-      </div>
-      <div className="flex gap-2">
-        <CombinatorSelector
-          combinator={group.combinator}
-          onChange={(newCombinator) =>
-            onChange({ ...group, combinator: newCombinator })
-          }
-        />
-      </div>
-
-      {group.rules.map((rule, index) => (
-        <div key={index} data-testid="rule-or-group">
-          {"combinator" in rule ? (
-            <GroupComponent
-              group={rule}
-              fields={fields}
-              onChange={(updatedGroup) => updateGroup(index, updatedGroup)}
-            />
-          ) : (
-            <RuleComponent
-              rule={rule}
-              fields={fields}
-              onUpdate={(updatedRule) => updateRule(index, updatedRule)}
-              onRemove={() => removeRule(index)}
-            />
-          )}
-        </div>
-      ))}
+      <Stack
+        direction={"column"}
+        p={2}
+        gap={2}
+        bgcolor={theme.palette.grey[100]}
+      >
+        <Stack direction={"row"} gap={2} mb={2}>
+          <Button
+            variant="contained"
+            color="info"
+            data-testid="add-rule"
+            onClick={addRule}
+            type="button"
+            startIcon={<AddIcon />}
+          >
+            <Typography variant="button">Add Rule</Typography>
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            data-testid="add-group"
+            onClick={addGroup}
+            type="button"
+            startIcon={<AddIcon />}
+          >
+            <Typography variant="button">Add Group</Typography>
+          </Button>
+        </Stack>
+        <Box>
+          <CombinatorSelector
+            combinator={group.combinator}
+            onChange={(newCombinator) =>
+              onChange({ ...group, combinator: newCombinator })
+            }
+          />
+        </Box>
+        {group.rules.map((rule, index) => (
+          <Box key={index}>
+            {"combinator" in rule ? (
+              <GroupComponent
+                group={rule}
+                fields={fields}
+                onChange={(updatedGroup) => updateGroup(index, updatedGroup)}
+              />
+            ) : (
+              <RuleComponent
+                rule={rule}
+                fields={fields}
+                onUpdate={(updatedRule) => updateRule(index, updatedRule)}
+                onRemove={() => removeRule(index)}
+              />
+            )}
+          </Box>
+        ))}
+      </Stack>
     </Card>
   )
 }

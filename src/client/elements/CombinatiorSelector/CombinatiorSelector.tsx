@@ -11,7 +11,6 @@ function CombinatorSelector(props: CombinatorSelectorProps) {
   return (
     <FormControl
       sx={{
-        my: 1,
         minWidth: 120,
       }}
     >

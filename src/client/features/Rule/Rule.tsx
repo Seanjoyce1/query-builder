@@ -4,6 +4,8 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
+  Stack,
   Typography,
   useMediaQuery,
   useTheme,
@@ -28,11 +30,31 @@ function RuleComponent(props: RuleComponentProps) {
 
   const field = fields.find((f) => f.name === rule.fieldName)
 
+  const handleFieldChange = (e: SelectChangeEvent<string>) => {
+    const value =
+      e.target.value === "amount"
+        ? {
+            amount: 0,
+            currency: "USD",
+          }
+        : ""
+    onUpdate({
+      ...rule,
+      fieldName: e.target.value as string,
+      operation: "EQUAL",
+      value: value,
+    })
+  }
+
   return (
-    <div className="flex flex-col lg:flex-row  items-start lg:items-center gap-3 mb-2">
+    <Stack
+      direction={{ xs: "column", xl: "row" }}
+      justifyItems={{ xs: "center", lg: "start" }}
+      mb={2}
+      gap={2}
+    >
       <FormControl
         sx={{
-          my: 1,
           minWidth: 120,
         }}
         fullWidth={isMobile}
@@ -46,14 +68,7 @@ function RuleComponent(props: RuleComponentProps) {
           size="small"
           label="Field"
           required
-          onChange={(e) =>
-            onUpdate({
-              ...rule,
-              fieldName: e.target.value,
-              operation: "EQUAL",
-              value: "",
-            })
-          }
+          onChange={(e) => handleFieldChange(e)}
         >
           {fields.map((field) => (
             <MenuItem key={field.name} value={field.name}>
@@ -65,7 +80,6 @@ function RuleComponent(props: RuleComponentProps) {
 
       <FormControl
         sx={{
-          my: 1,
           minWidth: 120,
         }}
         fullWidth={isMobile}
@@ -102,7 +116,7 @@ function RuleComponent(props: RuleComponentProps) {
       >
         <Typography variant="button"> Remove</Typography>
       </Button>
-    </div>
+    </Stack>
   )
 }
 

@@ -31,7 +31,6 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
       return (
         <FormControl
           sx={{
-            my: 1,
             minWidth: 200,
           }}
           fullWidth={isMobile}
@@ -61,7 +60,6 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
           <>
             <FormControl
               sx={{
-                my: 1,
                 minWidth: 120,
               }}
               fullWidth={isMobile}
@@ -86,7 +84,6 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
             </FormControl>
             <FormControl
               sx={{
-                my: 1,
                 minWidth: 120,
               }}
               fullWidth={isMobile}
@@ -120,7 +117,6 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
       return (
         <FormControl
           sx={{
-            my: 1,
             minWidth: 120,
           }}
         >
@@ -141,7 +137,6 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
       return (
         <FormControl
           sx={{
-            my: 1,
             minWidth: 120,
           }}
         >
