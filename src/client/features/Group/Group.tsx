@@ -3,6 +3,7 @@ import CombinatorSelector from "../../elements/CombinatiorSelector/CombinatiorSe
 import RuleComponent from "../Rule/Rule"
 import { Box, Button, Card, Stack, Typography, useTheme } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add"
+import { useCallback } from "react"
 
 interface GroupComponentProps {
   group: Group
@@ -15,7 +16,7 @@ function GroupComponent(props: GroupComponentProps) {
 
   const theme = useTheme()
 
-  const addRule = () => {
+  const addRule = useCallback(() => {
     onChange({
       ...group,
       rules: [
@@ -23,36 +24,46 @@ function GroupComponent(props: GroupComponentProps) {
         { fieldName: "amount", operation: "EQUAL", value: "" },
       ],
     })
-  }
+  }, [group, onChange])
 
-  const addGroup = () => {
+  const addGroup = useCallback(() => {
     onChange({
       ...group,
       rules: [...group.rules, { combinator: "AND", rules: [] }],
     })
-  }
+  }, [group, onChange])
 
-  const updateRule = (index: number, updatedRule: Rule) => {
-    onChange({
-      ...group,
-      rules: group.rules.map((rule, i) => (i === index ? updatedRule : rule)),
-    })
-  }
+  const updateRule = useCallback(
+    (index: number, updatedRule: Rule) => {
+      onChange({
+        ...group,
+        rules: group.rules.map((rule, i) => (i === index ? updatedRule : rule)),
+      })
+    },
+    [group, onChange]
+  )
 
-  const updateGroup = (index: number, updatedGroup: Group) => {
-    onChange({
-      ...group,
-      rules: group.rules.map((rule, i) => (i === index ? updatedGroup : rule)),
-    })
-  }
+  const updateGroup = useCallback(
+    (index: number, updatedGroup: Group) => {
+      onChange({
+        ...group,
+        rules: group.rules.map((rule, i) =>
+          i === index ? updatedGroup : rule
+        ),
+      })
+    },
+    [group, onChange]
+  )
 
-  const removeRule = (index: number) => {
-    onChange({
-      ...group,
-      rules: group.rules.filter((_, i) => i !== index),
-    })
-  }
-
+  const removeRule = useCallback(
+    (index: number) => {
+      onChange({
+        ...group,
+        rules: group.rules.filter((_, i) => i !== index),
+      })
+    },
+    [group, onChange]
+  )
   return (
     <Card
       data-testid="group"
@@ -64,10 +75,10 @@ function GroupComponent(props: GroupComponentProps) {
       <Stack
         direction={"column"}
         p={2}
-        gap={2}
+        gap={3}
         bgcolor={theme.palette.grey[100]}
       >
-        <Stack direction={"row"} gap={2} mb={2}>
+        <Stack direction={"row"} gap={2}>
           <Button
             variant="contained"
             color="info"
@@ -98,7 +109,7 @@ function GroupComponent(props: GroupComponentProps) {
           />
         </Box>
         {group.rules.map((rule, index) => (
-          <Box key={index} mb={2}>
+          <Box key={index}>
             {"combinator" in rule ? (
               <GroupComponent
                 group={rule}
