@@ -49,7 +49,7 @@ function QueryBuilder() {
 
   return (
     <Stack direction={{ xs: "column", lg: "row" }} gap={4}>
-      <Box width={{ xs: "100%", lg: "50%" }}>
+      <Box width={{ xs: "100%", lg: "60%" }}>
         <Typography variant="h4" gutterBottom>
           Query Builder
         </Typography>
@@ -61,7 +61,7 @@ function QueryBuilder() {
         </form>
       </Box>
 
-      <Stack width={{ xs: "100%", lg: "50%" }} height={"100%"}>
+      <Stack width={{ xs: "100%", lg: "40%" }}>
         <Typography variant="h4" gutterBottom>
           Result
         </Typography>
