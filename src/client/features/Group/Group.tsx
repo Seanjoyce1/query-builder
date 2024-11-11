@@ -2,7 +2,7 @@ import { PlusIcon } from "@heroicons/react/20/solid"
 import { Group, Field, Rule } from "../../data/interface"
 import CombinatorSelector from "../../elements/CombinatiorSelector/CombinatiorSelector"
 import RuleComponent from "../Rule/Rule"
-import { Button, Card, Typography } from "@mui/material"
+import { Button, Card, Typography, useTheme } from "@mui/material"
 
 interface GroupComponentProps {
   group: Group
@@ -12,6 +12,8 @@ interface GroupComponentProps {
 
 function GroupComponent(props: GroupComponentProps) {
   const { group, fields, onChange } = props
+
+  const theme = useTheme()
 
   const addRule = () => {
     onChange({
@@ -52,7 +54,14 @@ function GroupComponent(props: GroupComponentProps) {
   }
 
   return (
-    <Card data-testid="group" className="flex flex-col gap-2 p-4 mb-4">
+    <Card
+      data-testid="group"
+      className="flex flex-col gap-2 p-3 mb-4"
+      variant="outlined"
+      sx={{
+        backgroundColor: theme.palette.grey[100],
+      }}
+    >
       <div className="flex flex-row gap-2 mb-2">
         <Button
           variant="contained"

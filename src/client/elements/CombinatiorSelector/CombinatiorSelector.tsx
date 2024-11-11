@@ -1,4 +1,4 @@
-import { MenuItem, Select } from "@mui/material"
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 import { Combinator } from "../../data/types"
 
 interface CombinatorSelectorProps {
@@ -9,16 +9,26 @@ interface CombinatorSelectorProps {
 function CombinatorSelector(props: CombinatorSelectorProps) {
   const { combinator, onChange } = props
   return (
-    <Select
-      value={combinator}
-      onChange={(e) => onChange(e.target.value as Combinator)}
-      placeholder="AND"
-      defaultValue="AND"
-      size="small"
+    <FormControl
+      sx={{
+        my: 1,
+        minWidth: 120,
+      }}
     >
-      <MenuItem value="AND">AND</MenuItem>
-      <MenuItem value="OR">OR</MenuItem>
-    </Select>
+      <InputLabel id="combinator">Combinator</InputLabel>
+      <Select
+        labelId="combinator"
+        value={combinator}
+        onChange={(e) => onChange(e.target.value as Combinator)}
+        placeholder="AND"
+        defaultValue="AND"
+        label="Combinator"
+        size="small"
+      >
+        <MenuItem value="AND">AND</MenuItem>
+        <MenuItem value="OR">OR</MenuItem>
+      </Select>
+    </FormControl>
   )
 }
 
