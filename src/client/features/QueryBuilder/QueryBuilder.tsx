@@ -7,7 +7,7 @@ import { Combinator, FieldType } from "../../data/enums"
 function QueryBuilder() {
   const [query, setQuery] = useState<Group>({
     combinator: Combinator.AND,
-    rules: [],
+    conditions: [],
   })
 
   const theme = useTheme()

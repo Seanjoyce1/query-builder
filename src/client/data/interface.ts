@@ -8,12 +8,13 @@ export interface Field {
 }
 
 export interface Rule {
-  fieldName: string
+  field: string
   operation: Operation
   value: string | number | { amount: number; currency: string }
 }
 
 export interface Group {
   combinator: Combinator
-  rules: (Rule | Group)[]
+  conditions: (Rule | Group)[]
+  subCondition?: (Rule | Group)[]
 }

@@ -14,7 +14,7 @@ describe("ValueInput", () => {
     render(
       <ValueInput
         field={undefined}
-        rule={{ value: "", fieldName: "", operation: "EQUAL" }}
+        rule={{ value: "", field: "", operation: "EQUAL" }}
         onUpdate={mockOnUpdate}
       />
     )
@@ -30,7 +30,7 @@ describe("ValueInput", () => {
     }
     const rule: Rule = {
       value: "option1",
-      fieldName: "enumField",
+      field: "enumField",
       operation: "EQUAL",
     }
     render(<ValueInput field={field} rule={rule} onUpdate={mockOnUpdate} />)
@@ -43,7 +43,7 @@ describe("ValueInput", () => {
     const field: Field = { type: "number", name: "amount", label: "Amount" }
     const rule: Rule = {
       value: { amount: 100, currency: "USD" },
-      fieldName: "amount",
+      field: "amount",
       operation: "EQUAL",
     }
     render(<ValueInput field={field} rule={rule} onUpdate={mockOnUpdate} />)
@@ -57,7 +57,7 @@ describe("ValueInput", () => {
 
   it("renders number input for non-amount field", () => {
     const field: Field = { type: "number", name: "age", label: "Age" }
-    const rule: Rule = { value: 30, fieldName: "age", operation: "EQUAL" }
+    const rule: Rule = { value: 30, field: "age", operation: "EQUAL" }
     render(<ValueInput field={field} rule={rule} onUpdate={mockOnUpdate} />)
     const numberInput = screen.getByRole("spinbutton")
     expect(numberInput).toBeInTheDocument()

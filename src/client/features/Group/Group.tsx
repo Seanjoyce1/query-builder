@@ -20,9 +20,9 @@ function GroupComponent(props: GroupComponentProps) {
   const handleAddRule = useCallback(() => {
     onChange({
       ...group,
-      rules: [
-        ...group.rules,
-        { fieldName: "amount", operation: Operation.EQUAL, value: "" },
+      conditions: [
+        ...group.conditions,
+        { field: "amount", operation: Operation.EQUAL, value: "" },
       ],
     })
   }, [group, onChange])
@@ -30,7 +30,10 @@ function GroupComponent(props: GroupComponentProps) {
   const handleAddGroup = useCallback(() => {
     onChange({
       ...group,
-      rules: [...group.rules, { combinator: Combinator.AND, rules: [] }],
+      conditions: [
+        ...group.conditions,
+        { combinator: Combinator.AND, conditions: [] },
+      ],
     })
   }, [group, onChange])
 
@@ -38,7 +41,9 @@ function GroupComponent(props: GroupComponentProps) {
     (index: number, updatedRule: Rule) => {
       onChange({
         ...group,
-        rules: group.rules.map((rule, i) => (i === index ? updatedRule : rule)),
+        conditions: group.conditions.map((rule, i) =>
+          i === index ? updatedRule : rule
+        ),
       })
     },
     [group, onChange]
@@ -48,7 +53,7 @@ function GroupComponent(props: GroupComponentProps) {
     (index: number, updatedGroup: Group) => {
       onChange({
         ...group,
-        rules: group.rules.map((rule, i) =>
+        conditions: group.conditions.map((rule, i) =>
           i === index ? updatedGroup : rule
         ),
       })
@@ -60,7 +65,7 @@ function GroupComponent(props: GroupComponentProps) {
     (index: number) => {
       onChange({
         ...group,
-        rules: group.rules.filter((_, i) => i !== index),
+        conditions: group.conditions.filter((_, i) => i !== index),
       })
     },
     [group, onChange]
@@ -109,7 +114,7 @@ function GroupComponent(props: GroupComponentProps) {
             }
           />
         </Box>
-        {group.rules.map((rule, index) => (
+        {group.conditions.map((rule, index) => (
           <Box key={index}>
             {"combinator" in rule ? (
               <GroupComponent

@@ -28,12 +28,12 @@ function RuleComponent(props: RuleComponentProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
-  const field = fields.find((f) => f.name === rule.fieldName)
+  const field = fields.find((f) => f.name === rule.field)
 
   const handleFieldChange = (e: SelectChangeEvent<string>) => {
     onUpdate({
       ...rule,
-      fieldName: e.target.value as string,
+      field: e.target.value as string,
       operation: Operation.EQUAL,
       value: "",
     })
@@ -72,7 +72,7 @@ function RuleComponent(props: RuleComponentProps) {
       >
         <InputLabel id="combinator">Field</InputLabel>
         <Select
-          value={rule.fieldName}
+          value={rule.field}
           labelId="field"
           defaultValue="amount"
           placeholder="amount"

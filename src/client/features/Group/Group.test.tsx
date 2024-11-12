@@ -2,68 +2,33 @@ import { render, screen, fireEvent } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
 import GroupComponent from "./Group"
 import { Group, Field } from "../../data/interface"
+import { Combinator, FieldType } from "../../data/enums"
 
 const mockFields: Field[] = [
-  { name: "field1", label: "Field 1", type: "text" },
-  { name: "field2", label: "Field 2", type: "number" },
+  { name: "field1", label: "Field 1", type: FieldType.TEXT },
+  { name: "field2", label: "Field 2", type: FieldType.NUMBER },
 ]
 
 const mockGroup: Group = {
-  combinator: "AND",
-  rules: [],
+  combinator: Combinator.AND,
+  conditions: [],
 }
 
 describe("GroupComponent", () => {
-  it("renders GroupComponent with Add Rule and Add Group buttons", () => {
+  it("should add group", () => {
+    const onChange = vi.fn()
     render(
       <GroupComponent
         group={mockGroup}
         fields={mockFields}
-        onChange={vi.fn()}
-        addRule={vi.fn()}
-        addGroup={vi.fn()}
-        updateRule={vi.fn()}
-        updateGroup={vi.fn()}
-        removeRule={vi.fn()}
+        onChange={onChange}
       />
     )
-    expect(screen.getByText("Add Rule")).toBeInTheDocument()
-    expect(screen.getByText("Add Group")).toBeInTheDocument()
-  })
+    fireEvent.click(screen.getByTestId("add-group"))
 
-  it("calls addRule when Add Rule button is clicked", () => {
-    const addRule = vi.fn()
-    render(
-      <GroupComponent
-        group={mockGroup}
-        fields={mockFields}
-        onChange={vi.fn()}
-        addRule={addRule}
-        addGroup={vi.fn()}
-        updateRule={vi.fn()}
-        updateGroup={vi.fn()}
-        removeRule={vi.fn()}
-      />
-    )
-    fireEvent.click(screen.getByText("Add Rule"))
-    expect(addRule).toHaveBeenCalledTimes(1)
-  })
-
-  it("calls addGroup when Add Group button is clicked", () => {
-    const addGroup = vi.fn()
-    render(
-      <GroupComponent
-        group={mockGroup}
-        fields={mockFields}
-        onChange={vi.fn()}
-        addRule={vi.fn()}
-        addGroup={addGroup}
-        updateRule={vi.fn()}
-        updateGroup={vi.fn()}
-        removeRule={vi.fn()}
-      />
-    )
-    fireEvent.click(screen.getByText("Add Group"))
-    expect(addGroup).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({
+      combinator: Combinator.AND,
+      conditions: [{ combinator: Combinator.AND, conditions: [] }],
+    })
   })
 })

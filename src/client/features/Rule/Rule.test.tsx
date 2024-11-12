@@ -10,7 +10,7 @@ describe("RuleComponent", () => {
   ]
 
   const rule: Rule = {
-    fieldName: "age",
+    field: "age",
     operation: "EQUAL",
     value: "30",
   }
