@@ -6,28 +6,29 @@ import {
   TextField,
   useMediaQuery,
   useTheme,
-} from "@mui/material"
-import { Field, Rule } from "../../data/interface"
+} from "@mui/material";
+import { Field, Rule } from "../../data/interface";
+import { FieldType } from "../../data/enums";
 
 interface ValueInputProps {
-  field: Field | undefined
-  rule: Rule
-  onUpdate: (rule: Rule) => void
+  field: Field | undefined;
+  rule: Rule;
+  onUpdate: (rule: Rule) => void;
 }
 
 interface CurrencyValue {
-  amount: number
-  currency: string
+  amount: number;
+  currency: string;
 }
 
 function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  if (!field) return null
+  if (!field) return null;
 
   switch (field.type) {
-    case "enum":
+    case FieldType.ENUM:
       return (
         <FormControl
           sx={{
@@ -52,8 +53,8 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
             ))}
           </Select>
         </FormControl>
-      )
-    case "number":
+      );
+    case FieldType.NUMBER:
       if (field.name === "amount") {
         return (
           <>
@@ -111,7 +112,7 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
               </Select>
             </FormControl>
           </>
-        )
+        );
       }
       return (
         <FormControl
@@ -131,7 +132,7 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
             }
           />
         </FormControl>
-      )
+      );
     default:
       return (
         <FormControl
@@ -149,8 +150,8 @@ function ValueInput({ field, rule, onUpdate }: ValueInputProps) {
             onChange={(e) => onUpdate({ ...rule, value: e.target.value })}
           />
         </FormControl>
-      )
+      );
   }
 }
 
-export default ValueInput
+export default ValueInput;

@@ -13,8 +13,7 @@ import {
 import { Field, Rule } from "../../data/interface";
 import ValueInput from "../../elements/ValueInput/ValueInput";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Operation } from "../../data/enums";
-import { useEffect } from "react";
+import { FieldType, Operation } from "../../data/enums";
 
 interface RuleComponentProps {
   rule: Rule;
@@ -47,8 +46,8 @@ function RuleComponent(props: RuleComponentProps) {
     });
   };
 
-  const operations = (fieldType: string) => {
-    if (fieldType === "number") {
+  const operations = (fieldType: FieldType) => {
+    if (fieldType === FieldType.NUMBER) {
       return [
         Operation.EQUAL,
         Operation.NOT_EQUAL,
@@ -58,10 +57,6 @@ function RuleComponent(props: RuleComponentProps) {
     }
     return [Operation.EQUAL, Operation.NOT_EQUAL];
   };
-
-  useEffect(() => {
-    console.log(rule);
-  }, [rule]);
 
   return (
     <Stack
@@ -110,11 +105,12 @@ function RuleComponent(props: RuleComponentProps) {
           required
           onChange={handleOperationChange}
         >
-          {operations(field?.type as string).map((operation) => (
-            <MenuItem key={operation} value={operation}>
-              {operation}
-            </MenuItem>
-          ))}
+          {field &&
+            operations(field.type).map((operation) => (
+              <MenuItem key={operation} value={operation}>
+                {operation}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
       <ValueInput field={field} rule={rule} onUpdate={onUpdate} />

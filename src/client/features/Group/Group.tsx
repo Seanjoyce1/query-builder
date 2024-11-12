@@ -22,7 +22,14 @@ function GroupComponent(props: GroupComponentProps) {
       ...group,
       rules: [
         ...group.rules,
-        { fieldName: "amount", operation: Operation.EQUAL, value: "" },
+        {
+          fieldName: "amount",
+          operation: Operation.EQUAL,
+          value: {
+            currency: "USD",
+            amount: 0,
+          },
+        },
       ],
     });
   }, [group, onChange]);
