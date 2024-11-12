@@ -1,21 +1,21 @@
-import { Group, Field, Rule } from "../../data/interface"
-import CombinatorSelector from "../../elements/CombinatiorSelector/CombinatiorSelector"
-import RuleComponent from "../Rule/Rule"
-import { Box, Button, Card, Stack, Typography, useTheme } from "@mui/material"
-import AddIcon from "@mui/icons-material/Add"
-import { useCallback } from "react"
-import { Combinator, Operation } from "../../data/enums"
+import { Group, Field, Rule } from "../../data/interface";
+import CombinatorSelector from "../../elements/CombinatiorSelector/CombinatiorSelector";
+import RuleComponent from "../Rule/Rule";
+import { Box, Button, Card, Stack, Typography, useTheme } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { useCallback } from "react";
+import { Combinator, Operation } from "../../data/enums";
 
 interface GroupComponentProps {
-  group: Group
-  fields: Field[]
-  onChange: (group: Group) => void
+  group: Group;
+  fields: Field[];
+  onChange: (group: Group) => void;
 }
 
 function GroupComponent(props: GroupComponentProps) {
-  const { group, fields, onChange } = props
+  const { group, fields, onChange } = props;
 
-  const theme = useTheme()
+  const theme = useTheme();
 
   const handleAddRule = useCallback(() => {
     onChange({
@@ -24,25 +24,25 @@ function GroupComponent(props: GroupComponentProps) {
         ...group.rules,
         { fieldName: "amount", operation: Operation.EQUAL, value: "" },
       ],
-    })
-  }, [group, onChange])
+    });
+  }, [group, onChange]);
 
   const handleAddGroup = useCallback(() => {
     onChange({
       ...group,
       rules: [...group.rules, { combinator: Combinator.AND, rules: [] }],
-    })
-  }, [group, onChange])
+    });
+  }, [group, onChange]);
 
   const handleUpdateRule = useCallback(
     (index: number, updatedRule: Rule) => {
       onChange({
         ...group,
         rules: group.rules.map((rule, i) => (i === index ? updatedRule : rule)),
-      })
+      });
     },
     [group, onChange]
-  )
+  );
 
   const handleUpdateGroup = useCallback(
     (index: number, updatedGroup: Group) => {
@@ -51,20 +51,20 @@ function GroupComponent(props: GroupComponentProps) {
         rules: group.rules.map((rule, i) =>
           i === index ? updatedGroup : rule
         ),
-      })
+      });
     },
     [group, onChange]
-  )
+  );
 
   const handleRemoveRule = useCallback(
     (index: number) => {
       onChange({
         ...group,
         rules: group.rules.filter((_, i) => i !== index),
-      })
+      });
     },
     [group, onChange]
-  )
+  );
   return (
     <Card
       data-testid="group"
@@ -131,7 +131,7 @@ function GroupComponent(props: GroupComponentProps) {
         ))}
       </Stack>
     </Card>
-  )
+  );
 }
 
-export default GroupComponent
+export default GroupComponent;
