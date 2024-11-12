@@ -1,16 +1,22 @@
-import { Box, Button, Card, Stack, Typography, useTheme } from "@mui/material"
-import { Field, Group } from "../../data/interface"
-import GroupComponent from "../Group/Group"
-import { useState } from "react"
-import { Combinator, FieldType } from "../../data/enums"
+import { Box, Button, Card, Stack, Typography, useTheme } from "@mui/material";
+import { Field, Group } from "../../data/interface";
+import GroupComponent from "../Group/Group";
+import { useState } from "react";
+import { Combinator, FieldType } from "../../data/enums";
+import useQueryBuilder from "../../hooks/useQueryBuilder";
 
 function QueryBuilder() {
-  const [query, setQuery] = useState<Group>({
-    combinator: Combinator.AND,
-    rules: [],
-  })
+  const {
+    query,
+    setQuery,
+    handleAddRule,
+    handleAddGroup,
+    handleRemoveRule,
+    handleUpdateGroup,
+    handleUpdateRule,
+  } = useQueryBuilder();
 
-  const theme = useTheme()
+  const theme = useTheme();
 
   const fields: Field[] = [
     { name: "amount", label: "Amount", type: FieldType.NUMBER },
@@ -32,21 +38,21 @@ function QueryBuilder() {
     },
     { name: "device_ip", label: "Device IP", type: FieldType.TEXT },
     { name: "installments", label: "Installments", type: FieldType.NUMBER },
-  ]
+  ];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       await fetch("/api/save-rules", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(query),
-      })
-      console.log("Query sent successfully")
+      });
+      console.log("Query sent successfully");
     } catch (error) {
-      console.error("Error:", error)
+      console.error("Error:", error);
     }
-  }
+  };
 
   return (
     <Stack direction={{ xs: "column", lg: "row" }} gap={4}>
@@ -55,7 +61,16 @@ function QueryBuilder() {
           Query Builder
         </Typography>
         <form onSubmit={handleSubmit}>
-          <GroupComponent group={query} fields={fields} onChange={setQuery} />
+          <GroupComponent
+            group={query}
+            fields={fields}
+            onChange={setQuery}
+            onAddRule={handleAddRule}
+            onAddGroup={handleAddGroup}
+            onRemoveRule={handleRemoveRule}
+            onUpdateGroup={handleUpdateGroup}
+            onUpdateRule={handleUpdateRule}
+          />
           <Button variant="contained" type="submit">
             <Typography variant="button">Submit</Typography>
           </Button>
@@ -82,7 +97,7 @@ function QueryBuilder() {
         </Card>
       </Stack>
     </Stack>
-  )
+  );
 }
 
-export default QueryBuilder
+export default QueryBuilder;
