@@ -19,7 +19,7 @@ describe("RuleComponent", () => {
   const mockOnUpdate = vi.fn();
   const mockOnRemove = vi.fn();
 
-  it("renders correctly", () => {
+  it("should clear value on field change", () => {
     render(
       <RuleComponent
         rule={mockRule}
@@ -29,10 +29,41 @@ describe("RuleComponent", () => {
       />
     );
 
-    expect(screen.getByTestId("rule")).toBeInTheDocument();
-    expect(screen.getByTestId("field")).toBeInTheDocument();
-    expect(screen.getByTestId("operation")).toBeInTheDocument();
-    expect(screen.getByTestId("remove-rule")).toBeInTheDocument();
+    const inputElement = screen.getByTestId("field").querySelector("input");
+    if (inputElement) {
+      fireEvent.change(inputElement, {
+        target: { value: "name" },
+      });
+    }
+
+    expect(mockOnUpdate).toHaveBeenCalledWith({
+      ...mockRule,
+      fieldName: "name",
+      value: "",
+    });
+  });
+
+  it("should update rule operation", () => {
+    render(
+      <RuleComponent
+        rule={mockRule}
+        fields={mockFields}
+        onUpdate={mockOnUpdate}
+        onRemove={mockOnRemove}
+      />
+    );
+
+    const inputElement = screen.getByTestId("operation").querySelector("input");
+    if (inputElement) {
+      fireEvent.change(inputElement, {
+        target: { value: Operation.NOT_EQUAL },
+      });
+    }
+
+    expect(mockOnUpdate).toHaveBeenCalledWith({
+      ...mockRule,
+      operation: Operation.NOT_EQUAL,
+    });
   });
 
   it("calls onRemove when remove button is clicked", () => {
