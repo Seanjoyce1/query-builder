@@ -14,6 +14,7 @@ import { Field, Rule } from "../../data/interface";
 import ValueInput from "../../elements/ValueInput/ValueInput";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Operation } from "../../data/enums";
+import { useEffect } from "react";
 
 interface RuleComponentProps {
   rule: Rule;
@@ -58,6 +59,10 @@ function RuleComponent(props: RuleComponentProps) {
     return [Operation.EQUAL, Operation.NOT_EQUAL];
   };
 
+  useEffect(() => {
+    console.log(rule);
+  }, [rule]);
+
   return (
     <Stack
       data-testid="rule"
@@ -70,13 +75,12 @@ function RuleComponent(props: RuleComponentProps) {
           minWidth: 120,
         }}
         fullWidth={isMobile}
+        data-testid="field"
       >
-        <InputLabel id="combinator">Field</InputLabel>
+        <InputLabel id="field">Field</InputLabel>
         <Select
           value={rule.fieldName}
           labelId="field"
-          defaultValue="amount"
-          placeholder="amount"
           size="small"
           label="Field"
           required
@@ -95,6 +99,7 @@ function RuleComponent(props: RuleComponentProps) {
           minWidth: 120,
         }}
         fullWidth={isMobile}
+        data-testid="operation"
       >
         <InputLabel id="Operation">Operation</InputLabel>
         <Select
