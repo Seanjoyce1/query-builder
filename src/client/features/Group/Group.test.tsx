@@ -41,7 +41,16 @@ describe("GroupComponent", () => {
     expect(handleChange).toHaveBeenCalled();
     expect(handleChange).toHaveBeenCalledWith({
       ...mockGroup,
-      rules: [{ fieldName: "amount", operation: "EQUAL", value: "" }],
+      rules: [
+        {
+          fieldName: "amount",
+          operation: "EQUAL",
+          value: {
+            currency: "USD",
+            amount: 0,
+          },
+        },
+      ],
     });
   });
 
